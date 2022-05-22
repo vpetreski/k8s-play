@@ -127,3 +127,6 @@ kubectl delete replicaset rs-hello-nginx
 kubectl get replicaset
 kubectl get pods
 ```
+
+## Deploymentds
+TODO
