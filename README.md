@@ -128,5 +128,5 @@ kubectl get replicaset
 kubectl get pods
 ```
 
-## Deploymentds
+## Deployments
 TODO
