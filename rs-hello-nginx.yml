@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: myapp-replicaset
+  name: rs-hello-nginx
   labels:
-    app: myapp
+    app: hello-nginx
     type: front-end
 spec:
   template:
     metadata:
-      name: myapp-pod
+      name: hello-nginx-pod
       labels:
-        app: myapp
+        app: hello-nginx
         type: front-end
     spec:
       containers:
-        - name: nginx-container
+        - name: hello-nginx-container
           image: nginx
-  replicas: 6
+  replicas: 3
   # ReplicaSet requires additional selector - what PODS fall under it
   # This is because ReplicaSet can manage not only PODs created from its template but also other PODs
   # So we have to specify that here

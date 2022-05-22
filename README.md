@@ -102,28 +102,28 @@ kubectl create -f rs-hello-nginx.yml
 kubectl get replicaset
 kubectl get pods
 # Delete one of the pods
-kubectl delete pod myapp-replicaset-8nxxl
+kubectl delete pod rs-hello-nginx-7zz2n
 # And then we see that replicaset created new one to have 3 of them always
 kubectl get pods
 # And if we create POD automatically with that same label, replicaset will terminate it immediately to maintain desired numbers of PODs
 # Describe also works for replicaset
-kubectl describe replicaset myapp-replicaset
+kubectl describe replicaset rs-hello-nginx
 # After updating replicas from 3 to 6 in yml file (one way to scale)
 kubectl replace -f rs-hello-nginx.yml
 kubectl get replicaset
 kubectl get pods
 # Another way to scale (scaling back to 3)
-kubectl scale --replicas=3 -f  rs-hello-nginx.yml
+kubectl scale --replicas=3 -f rs-hello-nginx.yml
 kubectl get replicaset
 kubectl get pods
 # Yet Another way to scale
-kubectl scale --replicas=2 replicaset myapp-replicaset
+kubectl scale --replicas=2 replicaset rs-hello-nginx
 kubectl get replicaset
 kubectl get pods
 # Also edit could be used
-kubectl edit replicaset myapp-replicaset
+kubectl edit replicaset rs-hello-nginx
 # Delete replicaset (and all underlying PODs)
-kubectl delete replicaset myapp-replicaset
+kubectl delete replicaset rs-hello-nginx
 kubectl get replicaset
 kubectl get pods
 ```
