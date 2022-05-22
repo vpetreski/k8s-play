@@ -1,22 +1,22 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: myapp-rc
+  name: rc-hello-nginx
   labels:
-    app: myapp
+    app: hello-nginx
     type: front-end
 spec:
   template:
     # Basically copy-paste from pod-hello-nginx.yml
     # This is the template of the POD, so that ReplicationController knows how to create new PODS when needed
     metadata:
-      name: myapp-pod
+      name: hello-nginx-pod
       labels:
-        app: myapp
+        app: hello-nginx
         type: front-end
     spec:
       containers:
-        - name: nginx-container
+        - name: hello-nginx-container
           image: nginx
   # How many PODs / replicas we want to maintain always
   replicas: 3

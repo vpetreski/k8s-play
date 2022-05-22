@@ -86,31 +86,19 @@ kubectl get pods
 kubectl delete pod hello-redis
 ```
 
-## rc and rs
-
-Controlers - oni su mozak Kubernetesa oni monitoruju objekte i reaguju odgovarajuce, imas vise vrsta..
-Replication Controllers & ReplicaSets
-  replication controler prakticno sluzi da omoguci HA, ako trokne POD, on ga zameni sam automatski!
-  znaci on se brine da je u svakom trenutku broj POD-va aktivan koliko je specificirano!
-  takodje radi load balancing and scaling, replication controller radi na celom clusteru i sa vise nodove bez problema..
-  ReplicaSet je noviji nacin kako se radi replication, dok je Replicatin Controller stariji
-  Tako da znamo da je to isto, ali je preporuceni i moderniji nacin ReplicaSets, tako da se drzimo toga!
-  Labels and Selector - replica set monitors the pods to be able to maintain desired heatlhy number of PODS
-  it knows which PODs to monitor with selector and labels
-  so labels are this way a filter for replica set to scan only those PODS that we are interested in
-
+## Replication Controllers & ReplicaSets
 ```shell
-kubectl create -f rc-definition.yml
+# Replication Controllers is older way of controlling replicas
+kubectl create -f rc-hello-nginx.yml
 kubectl get replicationcontrollers
 kubectl get pods
 # Delete replication controller (and all underlying PODs)
-kubectl delete replicationcontrollers myapp-rc
+kubectl delete replicationcontrollers rc-hello-nginx
 kubectl get replicationcontrollers
 kubectl get pods
-```
 
-```shell
-kubectl create -f replicaset-definition.yml
+# ReplicaSets is newer way of controlling replicas
+kubectl create -f rs-hello-nginx.yml
 kubectl get replicaset
 kubectl get pods
 # Delete one of the pods
@@ -121,11 +109,11 @@ kubectl get pods
 # Describe also works for replicaset
 kubectl describe replicaset myapp-replicaset
 # After updating replicas from 3 to 6 in yml file (one way to scale)
-kubectl replace -f replicaset-definition.yml
+kubectl replace -f rs-hello-nginx.yml
 kubectl get replicaset
 kubectl get pods
 # Another way to scale (scaling back to 3)
-kubectl scale --replicas=3 -f  replicaset-definition.yml
+kubectl scale --replicas=3 -f  rs-hello-nginx.yml
 kubectl get replicaset
 kubectl get pods
 # Yet Another way to scale
