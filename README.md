@@ -26,7 +26,7 @@ kubectl delete deployment hello-kubernetes
 ```
 One alternative to Minikube is single-node Kubernetes cluster via Docker Dekstop, but we will stick with Minikube.
 
-Let's get some basic commands:
+Let's execute some basic commands:
 ```shell
 minikube status
 minikube stop
@@ -47,21 +47,49 @@ kubectl get po -A
 
 ## PODs
 
-TODO
+kubectl run nginx --image nginx
+kubectl run nginx --image=nginx
+^ komanda na ovu foru bi za nas kreirala POD i u taj pod instalirala nginx docker container koji je skinula sa docker hub repoa (--image nginx)
+nginx posle run je pod name i moze biti bilo sta, ali nginx posle --image je ime image-a na docker registry koji gadjamo
+Posto nismo specifirali neki drugi docker registry, default je Docker Hub
+kubectl get pods
+^ vidimo postojece PODove
+kubectl get pods -o wide
+kubectl describe pods
+kubectl describe pod nginx
+Btw rezultat komande: kubectl get pods - READY 1/2 na primer znaci:
+  Running containers in POD / Total container in POD
+  Znaci 1/2 znaci da 1 od dva kontejnera je running / ready...
+kubectl delete pod POD_NAME # ovo brise pod POD_NAME
+Ovaj primer je zanimljiv da vidimo a) --dry-run koji prakticno ne pravi stvarno nego puca u fajl i b) edit/apply:
+  kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-definition.yaml
+  kubectl create -f redis-definition.yaml
+  kubectl edit pod redis
+  kubectl apply -f redis-definition.yaml
 
 ```shell
+
+
+
 kubectl create -f pod-definition.yml
 # OR
 # kubectl apply -f pod-definition.yml
-
 kubectl get pods
-
 kubectl describe pod myapp-pod
 ```
 
 ## rc and rs
 
-TODO
+Controlers - oni su mozak Kubernetesa oni monitoruju objekte i reaguju odgovarajuce, imas vise vrsta..
+Replication Controllers & ReplicaSets
+  replication controler prakticno sluzi da omoguci HA, ako trokne POD, on ga zameni sam automatski!
+  znaci on se brine da je u svakom trenutku broj POD-va aktivan koliko je specificirano!
+  takodje radi load balancing and scaling, replication controller radi na celom clusteru i sa vise nodove bez problema..
+  ReplicaSet je noviji nacin kako se radi replication, dok je Replicatin Controller stariji
+  Tako da znamo da je to isto, ali je preporuceni i moderniji nacin ReplicaSets, tako da se drzimo toga!
+  Labels and Selector - replica set monitors the pods to be able to maintain desired heatlhy number of PODS
+  it knows which PODs to monitor with selector and labels
+  so labels are this way a filter for replica set to scan only those PODS that we are interested in
 
 ```shell
 kubectl create -f rc-definition.yml
