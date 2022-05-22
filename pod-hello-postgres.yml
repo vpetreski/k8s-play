@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: postgres
+  name: pod-hello-postgres
   labels:
     tier: db-tier
 spec:
   containers:
-    - name: postgres
+    - name: hello-postgres-container
       image: postgres
       env:
         - name: POSTGRES_PASSWORD
