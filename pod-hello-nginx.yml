@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: myapp-pod
+  name: pod-hello-nginx
   # Under labels when can add arbitrary values as we wish to tag/label/describe our POD for easier filtering later
   labels:
-    app: myapp
+    app: hello-nginx
     type: front-end
 spec:
   containers:
-    - name: nginx-container
+    - name: hello-nginx-container
       image: nginx

@@ -7,7 +7,7 @@ metadata:
     type: front-end
 spec:
   template:
-    # Basically copy-paste from pod-definition.yml
+    # Basically copy-paste from pod-hello-nginx.yml
     # This is the template of the POD, so that ReplicationController knows how to create new PODS when needed
     metadata:
       name: myapp-pod

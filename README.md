@@ -46,36 +46,44 @@ kubectl get po -A
 ```
 
 ## PODs
-
-kubectl run nginx --image nginx
-kubectl run nginx --image=nginx
-^ komanda na ovu foru bi za nas kreirala POD i u taj pod instalirala nginx docker container koji je skinula sa docker hub repoa (--image nginx)
-nginx posle run je pod name i moze biti bilo sta, ali nginx posle --image je ime image-a na docker registry koji gadjamo
-Posto nismo specifirali neki drugi docker registry, default je Docker Hub
-kubectl get pods
-^ vidimo postojece PODove
-kubectl get pods -o wide
-kubectl describe pods
-kubectl describe pod nginx
-Btw rezultat komande: kubectl get pods - READY 1/2 na primer znaci:
-  Running containers in POD / Total container in POD
-  Znaci 1/2 znaci da 1 od dva kontejnera je running / ready...
-kubectl delete pod POD_NAME # ovo brise pod POD_NAME
-Ovaj primer je zanimljiv da vidimo a) --dry-run koji prakticno ne pravi stvarno nego puca u fajl i b) edit/apply:
-  kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-definition.yaml
-  kubectl create -f redis-definition.yaml
-  kubectl edit pod redis
-  kubectl apply -f redis-definition.yaml
-
 ```shell
-
-
-
-kubectl create -f pod-definition.yml
-# OR
-# kubectl apply -f pod-definition.yml
+# Create hello-nginx POD from nginx Docker image
+kubectl run hello-nginx --image=nginx
+# It's there (READY X/Y means that there are X running containers of total Y containers in the pod)
 kubectl get pods
-kubectl describe pod myapp-pod
+# Extended info
+kubectl get pods -o wide
+# Even more info
+kubectl describe pods
+# If if want only specific POD
+kubectl describe pod hello-nginx
+# Cleanup
+kubectl delete pod hello-nginx
+
+# Create pod-hello-nginx POD from YAML file 
+kubectl create -f pod-hello-nginx.yml
+# OR
+# https://www.theserverside.com/answer/Kubectl-apply-vs-create-Whats-the-difference
+# https://www.containiq.com/post/kubectl-apply-vs-create
+# https://stackoverflow.com/questions/47369351/kubectl-apply-vs-kubectl-create
+# kubectl apply -f pod-hello-nginx.yml
+kubectl get pods
+kubectl describe pod pod-hello-nginx
+# Cleanup
+kubectl delete pod pod-hello-nginx
+
+# With dry run we can just generate YAML file (purposely wrong redis123 image here)
+kubectl run hello-redis --image=redis123 --dry-run=client -o yaml > pod-hello-redis.yml
+# Then we create POD from that file
+kubectl create -f pod-hello-redis.yml
+# We can see it's not running and ErrImagePull status (redis123 image doesn't exist)
+kubectl get pods
+# Edit and fix redis123 to redis correct image
+kubectl edit pod hello-redis
+# It's now running correctly
+kubectl get pods
+# Cleanup
+kubectl delete pod hello-redis
 ```
 
 ## rc and rs
