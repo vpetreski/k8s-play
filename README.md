@@ -175,6 +175,6 @@ kubectl rollout history deployment.apps/deployment-hello-nginx
 # And make sure we are actually using the correct image (nginx:1.18)
 kubectl describe deployment deployment-hello-nginx
 # Now, let's imagine that we update again the image to some non-existent 
-# In that case rollout will start bit fail and Kubernetes terminated just 1 of 6 PODs and got stuck there
+# In that case rollout will start, but fail and Kubernetes terminated just 1 of 6 PODs and got stuck there
 # But the app is still operational and we can rollback to desired revision to fix this and get all 6 replicas back
 ```
