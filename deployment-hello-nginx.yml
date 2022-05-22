@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-hello-nginx
+  labels:
+    app: hello-nginx
+    type: front-end
+spec:
+  template:
+    metadata:
+      name: hello-nginx-pod
+      labels:
+        app: hello-nginx
+        type: front-end
+    spec:
+      containers:
+        - name: hello-nginx-container
+          image: nginx
+  replicas: 6
+  # ReplicaSet requires additional selector - what PODS fall under it
+  # This is because ReplicaSet can manage not only PODs created from its template but also other PODs
+  # So we have to specify that here
+  selector:
+    matchLabels:
+      type: front-end

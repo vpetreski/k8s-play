@@ -129,4 +129,52 @@ kubectl get pods
 ```
 
 ## Deployments
-TODO
+```shell
+kubectl create -f deployment-hello-nginx.yml
+kubectl get deployments
+kubectl get replicaset
+kubectl get pods
+# Or easier to see all with one command
+kubectl get all
+# Describe
+kubectl describe deployment deployment-hello-nginx
+# Delete deployment (and all underlying objects)
+kubectl delete deployment deployment-hello-nginx
+kubectl get all
+```
+Let's now see how Update & Rollback work:
+```shell
+# This will create 6 replicas
+kubectl create -f deployment-hello-nginx.yml
+# Checking status of the rollout (executing this immediately after the command above to see rolling out in progress)
+kubectl rollout status deployment.apps/deployment-hello-nginx
+# Check rollout history
+kubectl rollout history deployment.apps/deployment-hello-nginx
+# By default deployment creation doesn't record rollout cause, so let's delete and create it again with this enabled
+kubectl delete deployment deployment-hello-nginx
+kubectl create -f deployment-hello-nginx.yml --record
+# Now, there is a change cause present
+kubectl rollout history deployment.apps/deployment-hello-nginx
+# Let's now edit deployment to change image from latest nginx to older nginx:1.18
+kubectl edit deployment deployment-hello-nginx --record
+# Checking status of the rollout (executing this immediately after the command above to see rolling out in progress)
+# Now we can see that new replicas are being created, but old one are being destroyed (RollingUpdate (updating 1 by 1) is default strategy)
+kubectl rollout status deployment.apps/deployment-hello-nginx
+# Now we can see two revisions in the history
+kubectl rollout history deployment.apps/deployment-hello-nginx
+# We can also check the events section here, to see the rolling update
+kubectl describe deployment deployment-hello-nginx
+# Let's make one more change with another way, now to perl version of nginx
+kubectl set image deployment deployment-hello-nginx hello-nginx-container=nginx:1.18-perl --record
+kubectl rollout history deployment.apps/deployment-hello-nginx
+# Let's now see how rollout works, we want to rollout to 2nd revision with nginx:1.18 (no perl)
+kubectl rollout undo deployment/deployment-hello-nginx
+kubectl rollout status deployment.apps/deployment-hello-nginx
+# We will now see that 2nd revision now disappeared and became 4th revision
+kubectl rollout history deployment.apps/deployment-hello-nginx
+# And make sure we are actually using the correct image (nginx:1.18)
+kubectl describe deployment deployment-hello-nginx
+# Now, let's imagine that we update again the image to some non-existent 
+# In that case rollout will start bit fail and Kubernetes terminated just 1 of 6 PODs and got stuck there
+# But the app is still operational and we can rollback to desired revision to fix this and get all 6 replicas back
+```
