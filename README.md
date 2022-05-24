@@ -206,6 +206,10 @@ kubectl create -f service-hello-clusterip.yml
 # If not on supported cloud, this type would behave exactly the same as NodePort
 kubectl create -f service-hello-loadbalancer.yml
 
+# We can describe services
+kubectl describe service
+kubectl describe service hello-loadbalancer-service
+
 # Cleanup
 kubectl delete deployment deployment-hello-nginx
 delete service hello-nodeport-service
