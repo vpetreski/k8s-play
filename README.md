@@ -191,11 +191,11 @@ kubectl get services
 # OR
 kubectl get svc
 # To get the URL
-# minikube service hello-nginx-service --url
+# minikube service hello-nodeport-service --url
 # But it doesn't work on M1
 # https://github.com/kubernetes/minikube/issues/9016
 # So:
-kubectl port-forward service/hello-nginx-service 30008:80
+kubectl port-forward service/hello-nodeport-service 30008:80
 curl http://localhost:30008
 
 # Let's now create ClusterIP service, after this, other layers (like frontend) could use "backend" layer
@@ -204,5 +204,11 @@ kubectl create -f service-hello-clusterip.yml
 
 # LoadBalancer service is like NodePort, but utilizing supported cloud services (AWS, Azure, GCP...)
 # If not on supported cloud, this type would behave exactly the same as NodePort
-kubectl create -f service-hello-clusterip.yml
+kubectl create -f service-hello-loadbalancer.yml
+
+# Cleanup
+kubectl delete deployment deployment-hello-nginx
+delete service hello-nodeport-service
+delete service backend
+delete service hello-loadbalancer-service
 ```
