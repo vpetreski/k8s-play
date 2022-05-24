@@ -202,7 +202,7 @@ curl http://localhost:30008
 # ClusterIP is default type if not specified
 kubectl create -f service-hello-clusterip.yml
 
-# LoadBalancer service is like NodePort, but utilizing supported cloud services (AWS, Azure, GCP...)
+# LoadBalancer service is utilizing supported cloud services (AWS, Azure, GCP...)
 # If not on supported cloud, this type would behave exactly the same as NodePort
 kubectl create -f service-hello-loadbalancer.yml
 
