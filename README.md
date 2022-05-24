@@ -178,3 +178,23 @@ kubectl describe deployment deployment-hello-nginx
 # In that case rollout will start, but fail and Kubernetes terminated just 1 of 6 PODs and got stuck there
 # But the app is still operational and we can rollback to desired revision to fix this and get all 6 replicas back
 ```
+
+## Services
+```shell
+# We have deployment already in place
+kubectl get deployments
+# With 6 PODs with label app: hello-nginx
+kubectl get pods
+# Let's create NodePort service
+kubectl create -f service-hello-nginx.yml
+kubectl get services
+# OR
+kubectl get svc
+# To get the URL
+# minikube service hello-nginx-service --url
+# But it doesn't work on M1
+# https://github.com/kubernetes/minikube/issues/9016
+# So:
+kubectl port-forward service/hello-nginx-service 30008:80
+http://localhost:30008
+```
