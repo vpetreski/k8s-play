@@ -186,7 +186,7 @@ kubectl get deployments
 # With 6 PODs with label app: hello-nginx
 kubectl get pods
 # Let's create NodePort service
-kubectl create -f service-hello-nginx.yml
+kubectl create -f service-hello-nodeport.yml
 kubectl get services
 # OR
 kubectl get svc
@@ -196,5 +196,13 @@ kubectl get svc
 # https://github.com/kubernetes/minikube/issues/9016
 # So:
 kubectl port-forward service/hello-nginx-service 30008:80
-http://localhost:30008
+curl http://localhost:30008
+
+# Let's now create ClusterIP service, after this, other layers (like frontend) could use "backend" layer
+# ClusterIP is default type if not specified
+kubectl create -f service-hello-clusterip.yml
+
+# LoadBalancer service is like NodePort, but utilizing supported cloud services (AWS, Azure, GCP...)
+# If not on supported cloud, this type would behave exactly the same as NodePort
+kubectl create -f service-hello-clusterip.yml
 ```
