@@ -363,3 +363,11 @@ cd voting-app-3
 # The only difference is that now result-app-service and voting-app-service are LoadBalancer type without nodePort.
 # We can now use 2 ELBs (kubectl get svc) to open two respective frontend apps.
 ```
+
+## Shutdown
+```shell
+# Checking if there is something to cleanup
+kubectl get all
+# If all good, let's shutdown Minikube not to use resources
+minikube stop
+```
