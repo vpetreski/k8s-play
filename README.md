@@ -355,39 +355,11 @@ There are two ways for creating Kubernetes cluster on AWS:
 - [AWS Management Console & AWS CLI](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
 - [Using eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)
 
-We will use `eksctl` here.
+After configuring our cluster and tools, using any of the methods above, we can now:
 
 ```shell
-brew tap weaveworks/tap
-brew install weaveworks/tap/eksctlbrew install weaveworks/tap/eksctl
-eksctl version
+cd voting-app-3
+# Install deployments and services as usual
+# The only difference is that now result-app-service and voting-app-service are LoadBalancer type without nodePort.
+# We can now use 2 ELBs (kubectl get svc) to open two respective frontend apps.
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
