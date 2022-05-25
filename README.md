@@ -47,6 +47,7 @@ kubectl get po -A
 
 ## PODs
 ```shell
+cd hello
 # Create hello-nginx POD from nginx Docker image
 kubectl run hello-nginx --image=nginx
 # It's there (READY X/Y means that there are X running containers of total Y containers in the pod)
@@ -278,7 +279,6 @@ kubectl delete service result-service
 kubectl delete service voting-service
 # Checking
 kubectl get pods,svc
-cd ..
 ```
 
 ```shell
@@ -341,5 +341,4 @@ kubectl delete service result-service
 kubectl delete service voting-service
 # Checking
 kubectl get pods,svc
-cd ..
 ```
