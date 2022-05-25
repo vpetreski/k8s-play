@@ -221,7 +221,7 @@ delete service hello-loadbalancer-service
 
 ## Microservices - Voting App
 ```shell
-# First iteration of voting app with PODs + Services
+# First iteration of voting app with PODs + Services, just warming up
 cd voting-app-1
 
 # Port 80
@@ -283,15 +283,29 @@ kubectl get pods,svc
 ```
 
 ```shell
-# TODO - Second iteration of voting app with Deployments + Services
+# Second iteration of voting app with Deployments + Services, this is the way to go
 cd voting-app-2
 
+# Port 6379
+kubectl create -f redis-deploy.yaml
+# ClusterIP by default, internal redis
+kubectl create -f redis-service.yaml
+# Checking
+kubectl get all
+
+# Port 5432
+kubectl create -f postgres-deploy.yaml
+# ClusterIP by default, internal db
+kubectl create -f postgres-service.yaml
+# Checking
+kubectl get all
+
 # Port 80
-kubectl create -f voting-app-pod.yaml
+kubectl create -f voting-app-deploy.yaml
 # NodePort 30004
 kubectl create -f voting-app-service.yaml
 # Checking
-kubectl get pods,svc
+kubectl get all
 # Not working on M1
 minikube service voting-service --url
 # So:
@@ -299,30 +313,16 @@ kubectl port-forward service/voting-service 30004:80
 curl http://localhost:30004
 ^+C
 
-# Port 6379
-kubectl create -f redis-pod.yaml
-# ClusterIP by default, internal redis
-kubectl create -f redis-service.yaml
-# Checking
-kubectl get pods,svc
-
-# Port 5432
-kubectl create -f postgres-pod.yaml
-# ClusterIP by default, internal db
-kubectl create -f postgres-service.yaml
-# Checking
-kubectl get pods,svc
-
 # No port, just a worker, no service..
-kubectl create -f worker-app-pod.yaml
-kubectl get pods
+kubectl create -f worker-app-deploy.yaml
+kubectl get all
 
 # Port 80
-kubectl create -f result-app-pod.yaml
+kubectl create -f result-app-deploy.yaml
 # NodePort 30005
 kubectl create -f result-app-service.yaml
 # Checking
-kubectl get pods,svc
+kubectl get all
 # Not working on M1
 minikube service result-service --url
 # So:
@@ -331,15 +331,15 @@ curl http://localhost:30005
 ^+C
 
 # Cleanup
-kubectl delete pod postgres-pod
-kubectl delete pod redis-po
-kubectl delete pod result-app-pod
-kubectl delete pod voting-app-pod
-kubectl delete pod worker-app-pod
+kubectl delete deployment postgres-deploy
+kubectl delete deployment redis-deploy
+kubectl delete deployment result-app-deploy
+kubectl delete deployment voting-app-deploy
+kubectl delete deployment worker-app-deploy
 kubectl delete service db
 kubectl delete service redis
 kubectl delete service result-service
 kubectl delete service voting-service
 # Checking
-kubectl get pods,svc
+kubectl get all
 ```
