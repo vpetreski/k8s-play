@@ -216,3 +216,52 @@ delete service hello-nodeport-service
 delete service backend
 delete service hello-loadbalancer-service
 ```
+
+## Microservices - Voting App
+```shell
+cd voting-app
+
+# Port 80
+kubectl create -f voting-app-pod.yaml
+# NodePort 30004
+kubectl create -f voting-app-service.yaml
+# Checking
+kubectl get pods,svc
+# Not working on M1
+minikube service voting-service --url
+# So:
+kubectl port-forward service/voting-service 30004:80
+curl http://localhost:30004
+^+C
+
+# Port 6379
+kubectl create -f redis-pod.yaml
+# ClusterIP by default, internal redis
+kubectl create -f redis-service.yaml
+# Checking
+kubectl get pods,svc
+
+# Port 5432
+kubectl create -f postgres-pod.yaml
+# ClusterIP by default, internal db
+kubectl create -f postgres-service.yaml
+# Checking
+kubectl get pods,svc
+
+# No port, just a worker, no service..
+kubectl create -f worker-app-pod.yaml
+kubectl get pods
+
+# Port 80
+kubectl create -f result-app-pod.yaml
+# NodePort 30005
+kubectl create -f result-app-service.yaml
+# Checking
+kubectl get pods,svc
+# Not working on M1
+minikube service result-service --url
+# So:
+kubectl port-forward service/result-service 30005:80
+curl http://localhost:30005
+^+C
+```
