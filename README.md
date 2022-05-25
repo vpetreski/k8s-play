@@ -43,11 +43,12 @@ kubectl get nodes
 kubectl get nodes -o wide
 # To see cluster components
 kubectl get po -A 
+
+cd hello
 ```
 
 ## PODs
 ```shell
-cd hello
 # Create hello-nginx POD from nginx Docker image
 kubectl run hello-nginx --image=nginx
 # It's there (READY X/Y means that there are X running containers of total Y containers in the pod)
