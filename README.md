@@ -47,6 +47,8 @@ kubectl get po -A
 cd hello
 ```
 
+[Kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/) is a tool built to provide best-practice for creating Kubernetes clusters.
+
 ## PODs
 ```shell
 # Create hello-nginx POD from nginx Docker image
@@ -343,3 +345,49 @@ kubectl delete service voting-service
 # Checking
 kubectl get all
 ```
+
+## Amazon Elastic Kubernetes Service (AWS EKS)
+- [EKS Docs](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html)
+- [Getting Started](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
+- [eksctl](https://eksctl.io)
+
+There are two ways for creating Kubernetes cluster on AWS:
+- [AWS Management Console & AWS CLI](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html)
+- [Using eksctl](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html)
+
+We will use `eksctl` here.
+
+```shell
+brew tap weaveworks/tap
+brew install weaveworks/tap/eksctlbrew install weaveworks/tap/eksctl
+eksctl version
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
